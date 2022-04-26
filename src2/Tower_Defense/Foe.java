@@ -10,10 +10,13 @@ public class Foe extends GameObject{
 		super(x2, y2, width2, height2);
 		speed = 1;
 	}
+	
+	@Override
 	void update(){
-		//ADD WITH PATH
+		super.update();
+		y += speed;
 	}
-	void Draw(Graphics g){
+	void draw(Graphics g){
 		g.setColor(Color.ORANGE);
         g.fillRect(x, y, width, height);
 	}

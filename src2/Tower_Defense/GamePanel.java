@@ -27,6 +27,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	int currentState = MENU;
 	Timer frameDraw;
 	Turret turret = new Turret(200, 200, 50, 50);//CHANGE X AND Y
+	ObjectManager om = new ObjectManager(turret);
 
 	GamePanel() {
 		titleFont = new Font("Arial", Font.PLAIN, 48);
@@ -45,7 +46,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	}
 
 	void updateGameState() {
-
+om.update();
 	}
 
 	void updateEndState() {
@@ -70,10 +71,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		if (gotImage) {
 			g.drawImage(image, 0, 0,  TowerDefense.WIDTH, TowerDefense.HEIGHT, null);
 		} else {
-		g.setColor(Color.BLACK);
+		g.setColor(Color.white);
 		g.fillRect(0, 0, TowerDefense.WIDTH, TowerDefense.HEIGHT);
 		}
-		turret.draw(g);
+		om.draw(g);
 	}
 
 	void drawEndState(Graphics g) {
@@ -144,18 +145,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		        currentState++;
 		    }
 		}   
-		if (e.getKeyCode()==KeyEvent.VK_DOWN) {
-		    System.out.println("DOWN");
-		}
-		if (e.getKeyCode()==KeyEvent.VK_UP) {
-		    System.out.println("UP");
-		}
-		if (e.getKeyCode()==KeyEvent.VK_RIGHT) {
-		    System.out.println("RIGHT");
-		}
-		if (e.getKeyCode()==KeyEvent.VK_LEFT) {
-		    System.out.println("LEFT");
-		}
+		
 
 	}
 
