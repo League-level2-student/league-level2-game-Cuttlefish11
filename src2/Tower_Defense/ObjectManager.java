@@ -1,10 +1,12 @@
 package Tower_Defense;
 
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class ObjectManager {
+public class ObjectManager implements ActionListener{
 Turret t;
 ArrayList<Foe> foes = new ArrayList<Foe>();
 ArrayList<TurretProjectile> tp = new ArrayList<TurretProjectile>();
@@ -57,6 +59,11 @@ void addProjectile() {
 }
 void addFoe() {
 foes.add(new Foe(ran.nextInt(100)+200,0,50,50));	
+}
+@Override
+public void actionPerformed(ActionEvent e) {
+	addFoe();
+	
 }
 
 }

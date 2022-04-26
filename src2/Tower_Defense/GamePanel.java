@@ -28,6 +28,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Timer frameDraw;
 	Turret turret = new Turret(200, 200, 50, 50);//CHANGE X AND Y
 	ObjectManager om = new ObjectManager(turret);
+	Timer foeSpawn;
 
 	GamePanel() {
 		titleFont = new Font("Arial", Font.PLAIN, 48);
@@ -147,6 +148,10 @@ om.update();
 		}   
 		
 
+	}
+	void startGame(){
+		 foeSpawn = new Timer(1000 , objectManager);
+		    foeSpawn.start();
 	}
 
 	@Override

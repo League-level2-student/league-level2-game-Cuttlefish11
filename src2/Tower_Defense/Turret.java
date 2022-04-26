@@ -37,4 +37,7 @@ public class Turret extends GameObject{
 	        needImage = false;
 	    }
 	}
+	public TurretProjectile getProjectile() {
+        return new TurretProjectile(x+width/2, y, 10, 10);
+} 
 }
