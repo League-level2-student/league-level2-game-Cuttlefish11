@@ -18,9 +18,6 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	Font titlePage;
 	Font endTitle;
 	Font endPage;
-	public static BufferedImage image;
-	public static boolean needImage = true;
-	public static boolean gotImage = false;
 	final int MENU = 0;
 	final int GAME = 1;
 	final int END = 2;
@@ -37,10 +34,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 		endPage = new Font("Arial", Font.PLAIN, 20);
 		frameDraw = new Timer(1000/60,this);
 		frameDraw.start();
-		if (needImage) {
-			loadImage("PIXELART TOWER DEFENSE PATH");
 		}
-	}
 
 	void updateMenuState() {
 
@@ -69,12 +63,8 @@ om.update();
 	}
 
 	void drawGameState(Graphics g) {
-		if (gotImage) {
-			g.drawImage(image, 0, 0,  TowerDefense.WIDTH, TowerDefense.HEIGHT, null);
-		} else {
 		g.setColor(Color.white);
 		g.fillRect(0, 0, TowerDefense.WIDTH, TowerDefense.HEIGHT);
-		}
 		om.draw(g);
 	}
 
@@ -88,7 +78,7 @@ om.update();
 
 		g.setFont(titlePage);
 		g.setColor(Color.WHITE);
-		//g.drawString("Score: " + om.score, 25, 25);
+		//g.drawString("Money: " + om.money, 25, 25);
 		g.drawString("You built towers(good job)", 115, 400);
 		g.drawString("Press ENTER to restart", 115, 500);
 	}
@@ -105,17 +95,7 @@ om.update();
 
 	}
 
-	void loadImage(String imageFile) {
-		if (needImage) {
-			try {
-				image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
-				gotImage = true;
-			} catch (Exception e) {
 
-			}
-			needImage = false;
-		}
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -145,12 +125,18 @@ om.update();
 		    } else {
 		        currentState++;
 		    }
-		}   
+		    if (currentState == GAME) {
+				startGame();
+				    } 
+		    if (currentState == END) {
+		   foeSpawn.stop();
+		    } 
+		} 
 		
 
 	}
 	void startGame(){
-		 foeSpawn = new Timer(1000 , objectManager);
+		 foeSpawn = new Timer(1500 , om);
 		    foeSpawn.start();
 	}
 
