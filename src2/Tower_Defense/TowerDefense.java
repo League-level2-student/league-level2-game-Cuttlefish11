@@ -13,6 +13,7 @@ public class TowerDefense {
 	TowerDefense() {
 		frame = new JFrame();
 		frame.addKeyListener(gp);
+		frame.addMouseListener(gp);
 	}
 
 	void setup() {

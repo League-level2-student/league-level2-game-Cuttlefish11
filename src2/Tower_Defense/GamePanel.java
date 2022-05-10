@@ -7,13 +7,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class GamePanel extends JPanel implements ActionListener, KeyListener {
+public class GamePanel extends JPanel implements ActionListener, KeyListener, MouseListener {
 	Font titleFont;
 	Font titlePage;
 	Font endTitle;
@@ -23,8 +25,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener {
 	final int END = 2;
 	int currentState = MENU;
 	Timer frameDraw;
-	Turret turret = new Turret(200, 200, 50, 50);//CHANGE X AND Y
-	ObjectManager om = new ObjectManager(turret);
+	ObjectManager om = new ObjectManager();
 	Timer foeSpawn;
 
 	GamePanel() {
@@ -78,7 +79,7 @@ om.update();
 
 		g.setFont(titlePage);
 		g.setColor(Color.WHITE);
-		//g.drawString("Money: " + om.money, 25, 25);
+		g.drawString("Money: " + om.money, 25, 25);
 		g.drawString("You built towers(good job)", 115, 400);
 		g.drawString("Press ENTER to restart", 115, 500);
 	}
@@ -127,6 +128,7 @@ om.update();
 		    }
 		    if (currentState == GAME) {
 				startGame();
+			    om.money = 50;
 				    } 
 		    if (currentState == END) {
 		   foeSpawn.stop();
@@ -142,6 +144,36 @@ om.update();
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		om.addTurret(e.getX(), e.getY());
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

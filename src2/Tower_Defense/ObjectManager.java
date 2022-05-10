@@ -9,18 +9,24 @@ import java.util.Random;
 public class ObjectManager implements ActionListener {
 	Turret t;
 	ArrayList<Foe> foes = new ArrayList<Foe>();
+	ArrayList<Turret> turrets = new ArrayList<Turret>();
 	ArrayList<TurretProjectile> tp = new ArrayList<TurretProjectile>();
 	Random ran = new Random();
+	int money = 50;
 
-	ObjectManager(Turret q) {
-		t = q;
+	ObjectManager() {
 
 	}
-
+	public int getMoney() {
+		return money;
+	}
+	
 	void draw(Graphics g) {
-		t.draw(g);
 		for (Foe foe : foes) {
 			foe.draw(g);
+		}
+		for (Turret turret : turrets) {
+			turret.draw(g);
 		}
 		for (TurretProjectile projectile : tp) {
 			projectile.Draw(g);
@@ -39,6 +45,9 @@ public class ObjectManager implements ActionListener {
 			if (projectile.y > TowerDefense.HEIGHT) {
 				projectile.isActive = false;
 			}
+		}
+		for (Turret turret : turrets) {
+			turret.update();
 		}
 	}
 
@@ -61,6 +70,17 @@ public class ObjectManager implements ActionListener {
 
 	}
 
+	void addTurret(int x, int y) {
+		if (x > 190 && x < 310) {
+		}
+		else if (money < 50) {	
+		}
+		else {
+			turrets.add(new Turret(x - 25, y - 50, 50, 50));
+			money -= 50;
+		}
+	}
+
 	void addFoe() {
 		foes.add(new Foe(ran.nextInt(100) + 200, 0, 35, 35));
 	}
@@ -70,5 +90,16 @@ public class ObjectManager implements ActionListener {
 		addFoe();
 
 	}
+	void checkCollision() {
+		for (Foe foe : foes) {	
+		for (TurretProjectile projectile : tp) {
+				if (projectile.collisionBox.intersects(foe.collisionBox)) {
+					foe.isActive = false;
+					money++;
+				}
 
 }
+		}
+}
+	}
+

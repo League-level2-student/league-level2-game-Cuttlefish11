@@ -11,7 +11,7 @@ public class TurretProjectile extends GameObject{
 		speed = 4;
 	}
 void update(){
-	//FIGURE OUT FIRING	
+	y -=speed;
 	}
 	void Draw(Graphics g){
 		g.setColor(Color.magenta);
