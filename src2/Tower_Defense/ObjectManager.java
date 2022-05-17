@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.Timer;
+
 public class ObjectManager implements ActionListener {
 	Turret t;
 	ArrayList<Foe> foes = new ArrayList<Foe>();
@@ -13,14 +15,16 @@ public class ObjectManager implements ActionListener {
 	ArrayList<TurretProjectile> tp = new ArrayList<TurretProjectile>();
 	Random ran = new Random();
 	int money = 50;
-
+	Timer projectileTimer = new Timer(1500, this);
+	
 	ObjectManager() {
-
+		projectileTimer.start();
 	}
+
 	public int getMoney() {
 		return money;
 	}
-	
+
 	void draw(Graphics g) {
 		for (Foe foe : foes) {
 			foe.draw(g);
@@ -36,9 +40,9 @@ public class ObjectManager implements ActionListener {
 	void update() {
 		for (Foe foe : foes) {
 			foe.update();
-			if (foe.y > TowerDefense.HEIGHT) {
-				foe.isActive = false;
-			}
+			//if (foe.y > TowerDefense.HEIGHT) {
+				//foe.isActive = false;
+			//}
 		}
 		for (TurretProjectile projectile : tp) {
 			projectile.update();
@@ -49,6 +53,8 @@ public class ObjectManager implements ActionListener {
 		for (Turret turret : turrets) {
 			turret.update();
 		}
+		checkCollision();
+		purgeObjects();
 	}
 
 	void purgeObjects() {
@@ -66,18 +72,16 @@ public class ObjectManager implements ActionListener {
 		}
 	}
 
-	void addProjectile() {
-
+	void addProjectile(TurretProjectile p) {
+		tp.add(p);
 	}
 
 	void addTurret(int x, int y) {
 		if (x > 190 && x < 310) {
-		}
-		else if (money < 50) {	
-		}
-		else {
+		} else if (money < 25) {
+		} else {
 			turrets.add(new Turret(x - 25, y - 50, 50, 50));
-			money -= 50;
+			money -= 25;
 		}
 	}
 
@@ -87,19 +91,28 @@ public class ObjectManager implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		addFoe();
+		if (e.getSource() == projectileTimer) {
+			if (!turrets.isEmpty()) {
+				for (Turret turret : turrets) {
+					addProjectile(turret.getProjectile());
+				}
+			}
+		} else {
+			addFoe();
+		}
 
 	}
+
 	void checkCollision() {
-		for (Foe foe : foes) {	
-		for (TurretProjectile projectile : tp) {
+		for (Foe foe : foes) {
+			for (TurretProjectile projectile : tp) {
 				if (projectile.collisionBox.intersects(foe.collisionBox)) {
 					foe.isActive = false;
+					projectile.isActive = false;
 					money++;
 				}
 
-}
+			}
 		}
-}
 	}
-
+}

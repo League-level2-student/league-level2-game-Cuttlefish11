@@ -10,6 +10,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -33,22 +34,27 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		titlePage = new Font("Arial", Font.PLAIN, 20);
 		endTitle = new Font("Arial", Font.PLAIN, 48);
 		endPage = new Font("Arial", Font.PLAIN, 20);
-		frameDraw = new Timer(1000/60,this);
+		frameDraw = new Timer(1000 / 60, this);
 		frameDraw.start();
-		}
+	}
 
 	void updateMenuState() {
 
 	}
 
 	void updateGameState() {
-om.update();
+		for (Foe foe : om.foes) {
+			if (foe.y > TowerDefense.HEIGHT) {
+				currentState = END;
+			}
+		}
+		om.update();
 	}
 
 	void updateEndState() {
 
 	}
-	
+
 	void drawMenuState(Graphics g) {
 		g.setColor(Color.GRAY);
 		g.fillRect(0, 0, TowerDefense.WIDTH, TowerDefense.HEIGHT);
@@ -67,6 +73,10 @@ om.update();
 		g.setColor(Color.white);
 		g.fillRect(0, 0, TowerDefense.WIDTH, TowerDefense.HEIGHT);
 		om.draw(g);
+
+		g.setFont(titlePage);
+		g.setColor(Color.black);
+		g.drawString("Money: " + om.money, 25, 25);
 	}
 
 	void drawEndState(Graphics g) {
@@ -79,7 +89,6 @@ om.update();
 
 		g.setFont(titlePage);
 		g.setColor(Color.WHITE);
-		g.drawString("Money: " + om.money, 25, 25);
 		g.drawString("You built towers(good job)", 115, 400);
 		g.drawString("Press ENTER to restart", 115, 500);
 	}
@@ -96,17 +105,15 @@ om.update();
 
 	}
 
-
-
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if(currentState == MENU){
-		    updateMenuState();
-		}else if(currentState == GAME){
-		    updateGameState();
-		}else if(currentState == END){
-		    updateEndState();
+		if (currentState == MENU) {
+			updateMenuState();
+		} else if (currentState == GAME) {
+			updateGameState();
+		} else if (currentState == END) {
+			updateEndState();
 		}
 		repaint();
 	}
@@ -114,38 +121,40 @@ om.update();
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getKeyCode()==KeyEvent.VK_ENTER) {
-		    if (currentState == END) {
-		        currentState = MENU;
-		    } else {
-		        currentState++;
-		    }
-		    if (currentState == GAME) {
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+			if (currentState == END) {
+				currentState = MENU;
+			} else {
+				currentState++;
+			}
+			if (currentState == GAME) {
 				startGame();
-			    om.money = 50;
-				    } 
-		    if (currentState == END) {
-		   foeSpawn.stop();
-		    } 
-		} 
-		
+				om.money = 25;
+			}
+			if (currentState == END) {
+				foeSpawn.stop();
+				om = new ObjectManager();
+				om.turrets = new ArrayList<Turret>();
+			}
+		}
 
 	}
-	void startGame(){
-		 foeSpawn = new Timer(1500 , om);
-		    foeSpawn.start();
+
+	void startGame() {
+		foeSpawn = new Timer(1500, om);
+		foeSpawn.start();
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -157,24 +166,24 @@ om.update();
 	@Override
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
