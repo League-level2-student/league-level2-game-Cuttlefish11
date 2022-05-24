@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -46,6 +47,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		for (Foe foe : om.foes) {
 			if (foe.y > TowerDefense.HEIGHT) {
 				currentState = END;
+				foeSpawn.stop();
+				om = new ObjectManager();
 			}
 		}
 		om.update();
@@ -140,10 +143,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			if (currentState == END) {
 				foeSpawn.stop();
 				om = new ObjectManager();
-				om.turrets = new ArrayList<Turret>();
 			}
 		}
-
+		else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+		JOptionPane.showMessageDialog(null, "In this game, the goal is to have no foes pass\n"
+				+"the end of the window. To acheive this you must\n"
+				+"place towers. Each tower costs 25 money and\n"
+				+"shoots towards the left. Killing an enemy gives\n"
+				+"1 money and you start with 25 money. Good luck!");
+		}
 	}
 
 	void startGame() {

@@ -80,13 +80,13 @@ public class ObjectManager implements ActionListener {
 		if (x > 190 && x < 310) {
 		} else if (money < 25) {
 		} else {
-			turrets.add(new Turret(x - 25, y - 50, 50, 50));
+			turrets.add(new Turret(x - 25, y - 50, 75, 99));
 			money -= 25;
 		}
 	}
 
 	void addFoe() {
-		foes.add(new Foe(ran.nextInt(100) + 200, 0, 35, 35));
+		foes.add(new Foe(ran.nextInt(100) + 200, 0, 50, 39));
 	}
 
 	@Override
