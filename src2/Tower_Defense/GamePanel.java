@@ -28,7 +28,8 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	int currentState = MENU;
 	Timer frameDraw;
 	ObjectManager om = new ObjectManager();
-	Timer foeSpawn;
+	static Timer foeSpawn;
+	static Timer trollSpawn;
 
 	GamePanel() {
 		titleFont = new Font("Arial", Font.PLAIN, 48);
@@ -48,8 +49,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			if (foe.y > TowerDefense.HEIGHT) {
 				currentState = END;
 				foeSpawn.stop();
+				trollSpawn.stop();
 				om = new ObjectManager();
 			}
+		}
+		if(om.money == 150) {
+			currentState = MENU;
+			foeSpawn.stop();
+			trollSpawn.stop();
+			om = new ObjectManager();
+			JOptionPane.showMessageDialog(null, "You have prevailed against your foes. Victory!");
 		}
 		om.update();
 	}

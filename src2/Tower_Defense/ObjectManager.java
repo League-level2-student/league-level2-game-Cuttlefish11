@@ -11,12 +11,15 @@ import javax.swing.Timer;
 public class ObjectManager implements ActionListener {
 	Turret t;
 	ArrayList<Foe> foes = new ArrayList<Foe>();
+	ArrayList<Troll> trolls = new ArrayList<Troll>();
 	ArrayList<Turret> turrets = new ArrayList<Turret>();
 	ArrayList<TurretProjectile> tp = new ArrayList<TurretProjectile>();
 	Random ran = new Random();
 	int money = 50;
 	Timer projectileTimer = new Timer(1500, this);
-	
+	int time = 1500;
+	boolean ts = false;
+
 	ObjectManager() {
 		projectileTimer.start();
 	}
@@ -29,6 +32,9 @@ public class ObjectManager implements ActionListener {
 		for (Foe foe : foes) {
 			foe.draw(g);
 		}
+		for (Troll troll : trolls) {
+			troll.draw(g);
+		}
 		for (Turret turret : turrets) {
 			turret.draw(g);
 		}
@@ -40,9 +46,9 @@ public class ObjectManager implements ActionListener {
 	void update() {
 		for (Foe foe : foes) {
 			foe.update();
-			//if (foe.y > TowerDefense.HEIGHT) {
-				//foe.isActive = false;
-			//}
+		}
+		for (Troll troll : trolls) {
+			troll.update();
 		}
 		for (TurretProjectile projectile : tp) {
 			projectile.update();
@@ -55,6 +61,11 @@ public class ObjectManager implements ActionListener {
 		}
 		checkCollision();
 		purgeObjects();
+		if (time < 1400 && ts == false) {
+			GamePanel.trollSpawn = new Timer(1700, this);
+			GamePanel.trollSpawn.start();
+			ts = true;
+		}
 	}
 
 	void purgeObjects() {
@@ -63,11 +74,17 @@ public class ObjectManager implements ActionListener {
 			if (et.isActive == false) {
 				foes.remove(i);
 			}
-		}
-		for (int i1 = 0; i1 < tp.size(); i1++) {
-			TurretProjectile missile = tp.get(i1);
-			if (missile.isActive == false) {
-				tp.remove(i1);
+			for (int i1 = 0; i1 < trolls.size(); i1++) {
+				Troll tn = trolls.get(i1);
+				if (tn.isActive == false) {
+					trolls.remove(i1);
+				}
+			}
+			for (int i1 = 0; i1 < tp.size(); i1++) {
+				TurretProjectile missile = tp.get(i1);
+				if (missile.isActive == false) {
+					tp.remove(i1);
+				}
 			}
 		}
 	}
@@ -89,6 +106,10 @@ public class ObjectManager implements ActionListener {
 		foes.add(new Foe(ran.nextInt(100) + 200, 0, 50, 39));
 	}
 
+	void addTroll() {
+		trolls.add(new Troll(ran.nextInt(100) + 200, 0, 50, 50));
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == projectileTimer) {
@@ -97,8 +118,18 @@ public class ObjectManager implements ActionListener {
 					addProjectile(turret.getProjectile());
 				}
 			}
+		} else if (e.getSource() == GamePanel.trollSpawn) {
+			addTroll();
+			GamePanel.foeSpawn.setDelay(time -= 2);
+			if (time < 10) {
+				time = 10;
+			}
 		} else {
 			addFoe();
+			GamePanel.foeSpawn.setDelay(time -= 2);
+			if (time < 10) {
+				time = 10;
+			}
 		}
 
 	}
@@ -110,6 +141,16 @@ public class ObjectManager implements ActionListener {
 					foe.isActive = false;
 					projectile.isActive = false;
 					money++;
+				}
+
+			}
+		}
+		for (Troll troll : trolls) {
+			for (TurretProjectile projectile : tp) {
+				if (projectile.collisionBox.intersects(troll.collisionBox)) {
+					troll.isActive = false;
+					projectile.isActive = false;
+					money += 2;
 				}
 
 			}
