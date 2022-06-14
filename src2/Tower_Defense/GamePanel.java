@@ -30,6 +30,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	ObjectManager om = new ObjectManager();
 	static Timer foeSpawn;
 	static Timer trollSpawn;
+	boolean ts = false;
 
 	GamePanel() {
 		titleFont = new Font("Arial", Font.PLAIN, 48);
@@ -38,6 +39,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		endPage = new Font("Arial", Font.PLAIN, 20);
 		frameDraw = new Timer(1000 / 60, this);
 		frameDraw.start();
+		trollSpawn = new Timer(1700, this);
 	}
 
 	void updateMenuState() {
@@ -53,7 +55,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				om = new ObjectManager();
 			}
 		}
-		if(om.money == 150) {
+		if (om.money >= 300) {
 			currentState = MENU;
 			foeSpawn.stop();
 			trollSpawn.stop();
@@ -61,6 +63,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			JOptionPane.showMessageDialog(null, "You have prevailed against your foes. Victory!");
 		}
 		om.update();
+		if (om.time < 1400 && ts == false) {
+			trollSpawn.start();
+			ts = true;
+		}
 	}
 
 	void updateEndState() {
@@ -153,13 +159,15 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				foeSpawn.stop();
 				om = new ObjectManager();
 			}
-		}
-		else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-		JOptionPane.showMessageDialog(null, "In this game, the goal is to have no foes pass\n"
-				+"the end of the window. To acheive this you must\n"
-				+"place towers. Each tower costs 25 money and\n"
-				+"shoots towards the left. Killing an enemy gives\n"
-				+"1 money and you start with 25 money. Good luck!");
+		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			JOptionPane.showMessageDialog(null,
+					          "In this game, the goal is to have no foes pass\n"
+							+ "the end of the window. To acheive this you must\n"
+							+ "place towers. Each standard tower costs 25 money\n"
+							+ "and shoots towards the left. Magic towers cost 40\n"
+							+ "money and are stronger. Click q to place a magic\n"
+							+ "tower. Killing an enemy gives you money and you\n"
+							+ "start with 25 money. Good luck!");
 		}
 	}
 
@@ -177,7 +185,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		om.addTurret(e.getX(), e.getY());
+		if (e.getButton() == e.BUTTON1)
+			om.addTurret(e.getX(), e.getY());
+		if (e.getButton() == e.BUTTON2)
+			om.addTower(e.getX(), e.getY());
 	}
 
 	@Override

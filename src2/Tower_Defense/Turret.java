@@ -11,13 +11,22 @@ public class Turret extends GameObject{
 	public static BufferedImage image;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;	 
+	int projectileSpeed = 1500;
+	String image2 = "Turret.jpeg";
 	
 	Turret(int x2, int y2, int width2, int height2) {
 		super(x2, y2, width2, height2);
 		if (needImage) {
-		    loadImage ("Turret.jpeg");
+		    loadImage (image2);
 		}
-
+	}
+	Turret(int x3, int y3, int width3, int height3, int speed, String image){
+		super(x3, y3, width3, height3);
+		projectileSpeed = speed;
+		image2 = image;
+		if (needImage) {
+		    loadImage (image2);
+		}
 	}
 	void draw(Graphics g) {
 		if (gotImage) {

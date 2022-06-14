@@ -18,7 +18,6 @@ public class ObjectManager implements ActionListener {
 	int money = 50;
 	Timer projectileTimer = new Timer(1500, this);
 	int time = 1500;
-	boolean ts = false;
 
 	ObjectManager() {
 		projectileTimer.start();
@@ -61,11 +60,6 @@ public class ObjectManager implements ActionListener {
 		}
 		checkCollision();
 		purgeObjects();
-		if (time < 1400 && ts == false) {
-			GamePanel.trollSpawn = new Timer(1700, this);
-			GamePanel.trollSpawn.start();
-			ts = true;
-		}
 	}
 
 	void purgeObjects() {
@@ -99,6 +93,14 @@ public class ObjectManager implements ActionListener {
 		} else {
 			turrets.add(new Turret(x - 25, y - 50, 75, 99));
 			money -= 25;
+		}
+	}
+	void addTower(int x, int y) {
+		if (x > 190 && x < 310) {
+		} else if (money < 1) {
+		} else {
+			turrets.add(new Turret(x - 25, y - 50, 75, 99, 1000, "Tower.jpg"));
+			money -= 1;
 		}
 	}
 
