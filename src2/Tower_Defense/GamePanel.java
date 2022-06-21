@@ -39,7 +39,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		endPage = new Font("Arial", Font.PLAIN, 20);
 		frameDraw = new Timer(1000 / 60, this);
 		frameDraw.start();
-		trollSpawn = new Timer(1700, this);
+		trollSpawn = new Timer(1700, om);
 	}
 
 	void updateMenuState() {
@@ -64,7 +64,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		}
 		om.update();
 		if (om.time < 1400 && ts == false) {
-			trollSpawn.start();
+            trollSpawn.start();
 			ts = true;
 		}
 	}
@@ -161,13 +161,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			JOptionPane.showMessageDialog(null,
-					          "In this game, the goal is to have no foes pass\n"
+					"In this game, the goal is to have no foes pass\n"
 							+ "the end of the window. To acheive this you must\n"
 							+ "place towers. Each standard tower costs 25 money\n"
-							+ "and shoots towards the left. Magic towers cost 40\n"
-							+ "money and are stronger. Click q to place a magic\n"
-							+ "tower. Killing an enemy gives you money and you\n"
-							+ "start with 25 money. Good luck!");
+							+ "and shoots towards the left. Special towers cost 40\n"
+							+ "money and are stronger. When you click, choose your\n"
+							+ "tower. Killing an enemy gives you money and you\n" + "start with 25 money. Good luck!");
 		}
 	}
 
@@ -185,10 +184,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getButton() == e.BUTTON1)
+		String type = JOptionPane.showInputDialog("Do you want a archer tower (cost 25, type in 'a')\n" + "or a special tower (cost 40, type in 's')?");
+		if (type.equals("a")) {
 			om.addTurret(e.getX(), e.getY());
-		if (e.getButton() == e.BUTTON2)
+		} else if (type.equals("s")) {
 			om.addTower(e.getX(), e.getY());
+		}
 	}
 
 	@Override

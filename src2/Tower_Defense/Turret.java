@@ -8,11 +8,12 @@ import javax.imageio.ImageIO;
 
 
 public class Turret extends GameObject{
-	public static BufferedImage image;
-	public static boolean needImage = true;
-	public static boolean gotImage = false;	 
-	int projectileSpeed = 1500;
+	public BufferedImage image;
+	public boolean needImage = true;
+	public boolean gotImage = false;	 
+	int projectileSpeed = 3;
 	String image2 = "Turret.jpeg";
+	public boolean isTower;
 	
 	Turret(int x2, int y2, int width2, int height2) {
 		super(x2, y2, width2, height2);
@@ -20,10 +21,11 @@ public class Turret extends GameObject{
 		    loadImage (image2);
 		}
 	}
-	Turret(int x3, int y3, int width3, int height3, int speed, String image){
+	Turret(int x3, int y3, int width3, int height3, int speed, String image, boolean isTower){
 		super(x3, y3, width3, height3);
 		projectileSpeed = speed;
 		image2 = image;
+		this.isTower = isTower;
 		if (needImage) {
 		    loadImage (image2);
 		}
@@ -37,7 +39,7 @@ public class Turret extends GameObject{
 		}
 		}
 	public TurretProjectile getProjectile() {
-        return new TurretProjectile(x+width/2, y, 30, 15);
+        return new TurretProjectile(x+width/2, y, 30, 15, projectileSpeed);
 } 
 	void loadImage(String imageFile) {
 	    if (needImage) {

@@ -7,14 +7,21 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 public class TurretProjectile extends GameObject{
-	public static BufferedImage image;
-	public static boolean needImage = true;
-	public static boolean gotImage = false;
+	public BufferedImage image;
+	public boolean needImage = true;
+	public boolean gotImage = false;
 	
 	
 	TurretProjectile(int x2, int y2, int width2, int height2) {
 		super(x2, y2, width2, height2);
 		speed = 3;
+		if (needImage) {
+		    loadImage ("arrow.png");
+		}
+	}
+	TurretProjectile(int x2, int y2, int width2, int height2, int speed) {
+		super(x2, y2, width2, height2);
+		this.speed = speed;
 		if (needImage) {
 		    loadImage ("arrow.png");
 		}

@@ -17,6 +17,7 @@ public class ObjectManager implements ActionListener {
 	Random ran = new Random();
 	int money = 50;
 	Timer projectileTimer = new Timer(1500, this);
+	Timer towerTime = new Timer(1000, this);
 	int time = 1500;
 
 	ObjectManager() {
@@ -97,10 +98,10 @@ public class ObjectManager implements ActionListener {
 	}
 	void addTower(int x, int y) {
 		if (x > 190 && x < 310) {
-		} else if (money < 1) {
+		} else if (money < 40) {
 		} else {
-			turrets.add(new Turret(x - 25, y - 50, 75, 99, 1000, "Tower.jpg"));
-			money -= 1;
+			turrets.add(new Turret(x - 25, y - 50, 75, 99, 5, "Tower.jpg", true));
+			money -= 40;
 		}
 	}
 
@@ -117,10 +118,22 @@ public class ObjectManager implements ActionListener {
 		if (e.getSource() == projectileTimer) {
 			if (!turrets.isEmpty()) {
 				for (Turret turret : turrets) {
-					addProjectile(turret.getProjectile());
+					if (!turret.isTower) {
+						addProjectile(turret.getProjectile());
+					}
 				}
 			}
-		} else if (e.getSource() == GamePanel.trollSpawn) {
+		} 
+		else if (e.getSource() == towerTime) {
+			if (!turrets.isEmpty()) {
+				for (Turret turret : turrets) {
+					if (turret.isTower) {
+						addProjectile(turret.getProjectile());
+					}
+				}
+			}
+		}
+		else if (e.getSource() == GamePanel.trollSpawn) {
 			addTroll();
 			GamePanel.foeSpawn.setDelay(time -= 2);
 			if (time < 10) {
