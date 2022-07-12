@@ -11,24 +11,26 @@ public class TurretProjectile extends GameObject{
 	public boolean needImage = true;
 	public boolean gotImage = false;
 	
-	
 	TurretProjectile(int x2, int y2, int width2, int height2) {
 		super(x2, y2, width2, height2);
-		speed = 3;
+		speed = 4;
 		if (needImage) {
 		    loadImage ("arrow.png");
 		}
 	}
-	TurretProjectile(int x2, int y2, int width2, int height2, int speed) {
+	TurretProjectile(int x2, int y2, int width2, int height2, int speed, String image2) {
 		super(x2, y2, width2, height2);
-		this.speed = speed;
+		this.speed = speed; 
 		if (needImage) {
-		    loadImage ("arrow.png");
+		    loadImage (image2);
 		}
 	}
 void update(){
 	super.update();
 	x +=speed;
+	if(speed == 5) {
+	y -=speed;	
+	}
 	}
 	void Draw(Graphics g){
 		if (gotImage) {

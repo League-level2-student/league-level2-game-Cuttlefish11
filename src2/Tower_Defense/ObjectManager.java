@@ -15,13 +15,14 @@ public class ObjectManager implements ActionListener {
 	ArrayList<Turret> turrets = new ArrayList<Turret>();
 	ArrayList<TurretProjectile> tp = new ArrayList<TurretProjectile>();
 	Random ran = new Random();
-	int money = 50;
+	int money = 30;
 	Timer projectileTimer = new Timer(1500, this);
 	Timer towerTime = new Timer(1000, this);
 	int time = 1500;
 
 	ObjectManager() {
 		projectileTimer.start();
+		towerTime.start();
 	}
 
 	public int getMoney() {
@@ -100,7 +101,7 @@ public class ObjectManager implements ActionListener {
 		if (x > 190 && x < 310) {
 		} else if (money < 40) {
 		} else {
-			turrets.add(new Turret(x - 25, y - 50, 75, 99, 5, "Tower.jpg", true));
+			turrets.add(new Turret(x - 25, y - 50, 75, 99, 5, "magic.png", "Tower.jpg", true));
 			money -= 40;
 		}
 	}

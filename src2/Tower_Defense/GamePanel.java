@@ -153,7 +153,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			}
 			if (currentState == GAME) {
 				startGame();
-				om.money = 25;
+				om.money = 30;
 			}
 			if (currentState == END) {
 				foeSpawn.stop();
@@ -184,11 +184,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
+		if (currentState == GAME) {
 		String type = JOptionPane.showInputDialog("Do you want a archer tower (cost 25, type in 'a')\n" + "or a special tower (cost 40, type in 's')?");
 		if (type.equals("a")) {
 			om.addTurret(e.getX(), e.getY());
 		} else if (type.equals("s")) {
 			om.addTower(e.getX(), e.getY());
+		}
 		}
 	}
 
