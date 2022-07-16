@@ -13,7 +13,7 @@ public class TurretProjectile extends GameObject{
 	
 	TurretProjectile(int x2, int y2, int width2, int height2) {
 		super(x2, y2, width2, height2);
-		speed = 4;
+		speed = 3;
 		if (needImage) {
 		    loadImage ("arrow.png");
 		}
@@ -28,7 +28,7 @@ public class TurretProjectile extends GameObject{
 void update(){
 	super.update();
 	x +=speed;
-	if(speed == 5) {
+	if(speed == 3) {
 	y -=speed;	
 	}
 	}

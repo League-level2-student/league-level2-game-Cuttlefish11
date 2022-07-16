@@ -99,10 +99,10 @@ public class ObjectManager implements ActionListener {
 	}
 	void addTower(int x, int y) {
 		if (x > 190 && x < 310) {
-		} else if (money < 40) {
+		} else if (money < 35) {
 		} else {
-			turrets.add(new Turret(x - 25, y - 50, 75, 99, 5, "magic.png", "Tower.jpg", true));
-			money -= 40;
+			turrets.add(new Turret(x - 25, y - 50, 75, 99, 3, "fireball.png", "Tower.jpg", true));
+			money -= 35;
 		}
 	}
 

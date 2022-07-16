@@ -11,7 +11,7 @@ public class Turret extends GameObject{
 	public BufferedImage image;
 	public boolean needImage = true;
 	public boolean gotImage = false;	 
-	int projectileSpeed = 3;
+	int projectileSpeed = 4;
 	String image2 = "Turret.jpeg";
 	public boolean isTower;
 	
@@ -39,10 +39,10 @@ public class Turret extends GameObject{
 		}
 		}
 	public TurretProjectile getProjectile() {
-       if (projectileSpeed == 3) {
+       if (projectileSpeed == 4) {
     	   return new TurretProjectile(x+width/2, y, 30, 15, projectileSpeed, "arrow.png");
        }
-		return new TurretProjectile(x+width/2, y, 30, 15, projectileSpeed, image2);
+		return new TurretProjectile(x+width/2, y, 15, 15, projectileSpeed, "fireball.png");
 } 
 	void loadImage(String imageFile) {
 	    if (needImage) {

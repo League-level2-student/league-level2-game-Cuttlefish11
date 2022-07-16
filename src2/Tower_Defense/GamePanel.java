@@ -18,6 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class GamePanel extends JPanel implements ActionListener, KeyListener, MouseListener {
+	public static BufferedImage image;
+	public static boolean needImage = true;
+	public static boolean gotImage = false;	
 	Font titleFont;
 	Font titlePage;
 	Font endTitle;
@@ -40,6 +43,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		frameDraw = new Timer(1000 / 60, this);
 		frameDraw.start();
 		trollSpawn = new Timer(1700, om);
+		if (needImage) {
+		    loadImage ("forest.jpg");
+		}
 	}
 
 	void updateMenuState() {
@@ -88,12 +94,18 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	}
 
 	void drawGameState(Graphics g) {
+		if (gotImage) {
+			g.drawImage(image, 0, 0, TowerDefense.WIDTH, TowerDefense.HEIGHT, null);
+			om.draw(g);
+		}
+		else {
 		g.setColor(Color.white);
 		g.fillRect(0, 0, TowerDefense.WIDTH, TowerDefense.HEIGHT);
 		om.draw(g);
-
+		}
+		
 		g.setFont(titlePage);
-		g.setColor(Color.black);
+		g.setColor(Color.red);
 		g.drawString("Money: " + om.money, 25, 25);
 	}
 
@@ -161,12 +173,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			JOptionPane.showMessageDialog(null,
-					"In this game, the goal is to have no foes pass\n"
-							+ "the end of the window. To acheive this you must\n"
-							+ "place towers. Each standard tower costs 25 money\n"
-							+ "and shoots towards the left. Special towers cost 40\n"
-							+ "money and are stronger. When you click, choose your\n"
-							+ "tower. Killing an enemy gives you money and you\n" + "start with 25 money. Good luck!");
+					          "Bloodthirsty monsters are invading the pristine\n"
+					        + "forest! Your goal is to have no foe pass the end\n"
+							+ "of the forest. To acheive this you must place\n"
+							+ "towers. Each standard tower costs 25 money and\n"
+							+ "shoots left. Magic towers cost 35 money and shoot\n"
+							+ "diagonally. When you click, choose your tower.\n"
+							+ "Killing an enemy gives you money and you start\n" 
+							+ "with 25 money. Good luck!");
 		}
 	}
 
@@ -185,10 +199,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if (currentState == GAME) {
-		String type = JOptionPane.showInputDialog("Do you want a archer tower (cost 25, type in 'a')\n" + "or a special tower (cost 40, type in 's')?");
+		String type = JOptionPane.showInputDialog("Do you want a archer tower (cost 25, type in 'a')\n" + "or a magic tower (cost 35, type in 'm')?");
 		if (type.equals("a")) {
 			om.addTurret(e.getX(), e.getY());
-		} else if (type.equals("s")) {
+		} else if (type.equals("m")) {
 			om.addTower(e.getX(), e.getY());
 		}
 		}
@@ -216,5 +230,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+	void loadImage(String imageFile) {
+	    if (needImage) {
+	        try {
+	            image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+		    gotImage = true;
+	        } catch (Exception e) {
+	            
+	        }
+	        needImage = false;
+	    }
 	}
 }
