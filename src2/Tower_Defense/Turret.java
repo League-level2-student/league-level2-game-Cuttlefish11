@@ -12,7 +12,7 @@ public class Turret extends GameObject{
 	public boolean needImage = true;
 	public boolean gotImage = false;	 
 	int projectileSpeed = 4;
-	String image2 = "Turret.jpeg";
+	String image2 = "Turret.png";
 	public boolean isTower;
 	
 	Turret(int x2, int y2, int width2, int height2) {

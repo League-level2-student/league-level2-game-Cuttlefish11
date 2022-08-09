@@ -99,10 +99,10 @@ public class ObjectManager implements ActionListener {
 	}
 	void addTower(int x, int y) {
 		if (x > 190 && x < 310) {
-		} else if (money < 35) {
+		} else if (money < 40) {
 		} else {
-			turrets.add(new Turret(x - 25, y - 50, 75, 99, 3, "fireball.png", "Tower.jpg", true));
-			money -= 35;
+			turrets.add(new Turret(x - 25, y - 50, 75, 99, 3, "fireball.png", "Tower.png", true));
+			money -= 40;
 		}
 	}
 
@@ -136,7 +136,7 @@ public class ObjectManager implements ActionListener {
 		}
 		else if (e.getSource() == GamePanel.trollSpawn) {
 			addTroll();
-			GamePanel.foeSpawn.setDelay(time -= 2);
+			GamePanel.trollSpawn.setDelay(time -= 2);
 			if (time < 10) {
 				time = 10;
 			}
@@ -162,14 +162,15 @@ public class ObjectManager implements ActionListener {
 			}
 		}
 		for (Troll troll : trolls) {
-			for (TurretProjectile projectile : tp) {
+			for (TurretProjectile projectile : tp) {	
 				if (projectile.collisionBox.intersects(troll.collisionBox)) {
 					troll.isActive = false;
 					projectile.isActive = false;
 					money += 2;
+					}
 				}
 
 			}
 		}
 	}
-}
+

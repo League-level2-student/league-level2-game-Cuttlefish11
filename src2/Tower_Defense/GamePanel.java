@@ -69,7 +69,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			JOptionPane.showMessageDialog(null, "You have prevailed against your foes. Victory!");
 		}
 		om.update();
-		if (om.time < 1400 && ts == false) {
+		if (om.time <= 1400 && ts == false) {
             trollSpawn.start();
 			ts = true;
 		}
@@ -119,7 +119,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 
 		g.setFont(titlePage);
 		g.setColor(Color.WHITE);
-		g.drawString("You built towers(good job)", 115, 400);
+		g.drawString("You lost. Try to do better next time!", 115, 400);
 		g.drawString("Press ENTER to restart", 115, 500);
 	}
 
@@ -177,10 +177,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 					        + "forest! Your goal is to have no foe pass the end\n"
 							+ "of the forest. To acheive this you must place\n"
 							+ "towers. Each standard tower costs 25 money and\n"
-							+ "shoots left. Magic towers cost 35 money and shoot\n"
-							+ "diagonally. When you click, choose your tower.\n"
-							+ "Killing an enemy gives you money and you start\n" 
-							+ "with 25 money. Good luck!");
+							+ "shoots left. Magic towers cost 40 money and shoot\n"
+							+ "diagonally to the right. When you click, choose\n"
+							+ "your tower. Killing an enemy gives you money and\n" 
+							+ "you start with 30 money. Good luck!");
 		}
 	}
 
