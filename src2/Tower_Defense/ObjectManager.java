@@ -136,18 +136,18 @@ public class ObjectManager implements ActionListener {
 		}
 		else if (e.getSource() == GamePanel.trollSpawn) {
 			addTroll();
-			GamePanel.trollSpawn.setDelay(time -= 2);
+			GamePanel.trollSpawn.setDelay(time);
 			if (time < 10) {
 				time = 10;
 			}
 		} else {
 			addFoe();
-			GamePanel.foeSpawn.setDelay(time -= 2);
+			GamePanel.foeSpawn.setDelay(time);
 			if (time < 10) {
 				time = 10;
 			}
 		}
-
+time -=2;
 	}
 
 	void checkCollision() {
@@ -164,9 +164,10 @@ public class ObjectManager implements ActionListener {
 		for (Troll troll : trolls) {
 			for (TurretProjectile projectile : tp) {	
 				if (projectile.collisionBox.intersects(troll.collisionBox)) {
-					troll.isActive = false;
-					projectile.isActive = false;
-					money += 2;
+						troll.isActive = false;
+						projectile.isActive = false;
+						money += 2;
+					
 					}
 				}
 

@@ -20,7 +20,7 @@ import javax.swing.Timer;
 public class GamePanel extends JPanel implements ActionListener, KeyListener, MouseListener {
 	public static BufferedImage image;
 	public static boolean needImage = true;
-	public static boolean gotImage = false;	
+	public static boolean gotImage = false;
 	Font titleFont;
 	Font titlePage;
 	Font endTitle;
@@ -44,7 +44,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		frameDraw.start();
 		trollSpawn = new Timer(1700, om);
 		if (needImage) {
-		    loadImage ("forest.jpg");
+			loadImage("forest.jpg");
 		}
 	}
 
@@ -59,6 +59,9 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				foeSpawn.stop();
 				trollSpawn.stop();
 				om = new ObjectManager();
+				ts = false;
+				trollSpawn = new Timer(1700, om);
+				return;
 			}
 		}
 		if (om.money >= 300) {
@@ -67,10 +70,14 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			trollSpawn.stop();
 			om = new ObjectManager();
 			JOptionPane.showMessageDialog(null, "You have prevailed against your foes. Victory!");
+			ts = false;
+			trollSpawn = new Timer(1700, om);
+			return;
 		}
 		om.update();
+		System.out.println(om.time);
 		if (om.time <= 1400 && ts == false) {
-            trollSpawn.start();
+			trollSpawn.start();
 			ts = true;
 		}
 	}
@@ -97,13 +104,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		if (gotImage) {
 			g.drawImage(image, 0, 0, TowerDefense.WIDTH, TowerDefense.HEIGHT, null);
 			om.draw(g);
+		} else {
+			g.setColor(Color.white);
+			g.fillRect(0, 0, TowerDefense.WIDTH, TowerDefense.HEIGHT);
+			om.draw(g);
 		}
-		else {
-		g.setColor(Color.white);
-		g.fillRect(0, 0, TowerDefense.WIDTH, TowerDefense.HEIGHT);
-		om.draw(g);
-		}
-		
+
 		g.setFont(titlePage);
 		g.setColor(Color.red);
 		g.drawString("Money: " + om.money, 25, 25);
@@ -172,15 +178,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				om = new ObjectManager();
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-			JOptionPane.showMessageDialog(null,
-					          "Bloodthirsty monsters are invading the pristine\n"
-					        + "forest! Your goal is to have no foe pass the end\n"
-							+ "of the forest. To acheive this you must place\n"
-							+ "towers. Each standard tower costs 25 money and\n"
-							+ "shoots left. Magic towers cost 40 money and shoot\n"
-							+ "diagonally to the right. When you click, choose\n"
-							+ "your tower. Killing an enemy gives you money and\n" 
-							+ "you start with 30 money. Good luck!");
+			JOptionPane.showMessageDialog(null, "Bloodthirsty monsters are invading the pristine\n"
+					+ "forest! Your goal is to have no foe pass the end\n"
+					+ "of the forest. To acheive this you must place\n"
+					+ "towers. Each standard tower costs 25 money and\n"
+					+ "shoots left. Magic towers cost 40 money and shoot\n"
+					+ "diagonally to the right. When you click, choose\n"
+					+ "your tower. Killing an enemy gives you money and\n" + "you start with 30 money. Good luck!");
 		}
 	}
 
@@ -199,12 +203,13 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if (currentState == GAME) {
-		String type = JOptionPane.showInputDialog("Do you want a archer tower (cost 25, type in 'a')\n" + "or a magic tower (cost 35, type in 'm')?");
-		if (type.equals("a")) {
-			om.addTurret(e.getX(), e.getY());
-		} else if (type.equals("m")) {
-			om.addTower(e.getX(), e.getY());
-		}
+			String type = JOptionPane.showInputDialog(
+					"Do you want a archer tower (cost 25, type in 'a')\n" + "or a magic tower (cost 35, type in 'm')?");
+			if (type.equals("a")) {
+				om.addTurret(e.getX(), e.getY());
+			} else if (type.equals("m")) {
+				om.addTower(e.getX(), e.getY());
+			}
 		}
 	}
 
@@ -231,15 +236,16 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		// TODO Auto-generated method stub
 
 	}
+
 	void loadImage(String imageFile) {
-	    if (needImage) {
-	        try {
-	            image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
-		    gotImage = true;
-	        } catch (Exception e) {
-	            
-	        }
-	        needImage = false;
-	    }
+		if (needImage) {
+			try {
+				image = ImageIO.read(this.getClass().getResourceAsStream(imageFile));
+				gotImage = true;
+			} catch (Exception e) {
+
+			}
+			needImage = false;
+		}
 	}
 }
