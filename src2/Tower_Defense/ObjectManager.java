@@ -140,14 +140,16 @@ public class ObjectManager implements ActionListener {
 			if (time < 10) {
 				time = 10;
 			}
+			time -=2;
+			System.out.println(time);
 		} else {
 			addFoe();
 			GamePanel.foeSpawn.setDelay(time);
 			if (time < 10) {
 				time = 10;
 			}
+			time -=2;
 		}
-time -=2;
 	}
 
 	void checkCollision() {
@@ -164,10 +166,12 @@ time -=2;
 		for (Troll troll : trolls) {
 			for (TurretProjectile projectile : tp) {	
 				if (projectile.collisionBox.intersects(troll.collisionBox)) {
-						troll.isActive = false;
+						troll.health--;
 						projectile.isActive = false;
+						if (troll.health == 0) {
+						troll.isActive = false;
 						money += 2;
-					
+						}
 					}
 				}
 

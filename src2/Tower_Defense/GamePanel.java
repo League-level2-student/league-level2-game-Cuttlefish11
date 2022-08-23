@@ -70,13 +70,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			trollSpawn.stop();
 			om = new ObjectManager();
 			JOptionPane.showMessageDialog(null, "You have prevailed against your foes. Victory!");
+			trollSpawn = new Timer(1600, om);
 			ts = false;
-			trollSpawn = new Timer(1700, om);
 			return;
 		}
 		om.update();
-		System.out.println(om.time);
-		if (om.time <= 1400 && ts == false) {
+		if (om.time <= 1500 && ts == false) {
 			trollSpawn.start();
 			ts = true;
 		}
@@ -172,10 +171,12 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			if (currentState == GAME) {
 				startGame();
 				om.money = 30;
+trollSpawn = new Timer(1700, om);
 			}
 			if (currentState == END) {
 				foeSpawn.stop();
 				om = new ObjectManager();
+				
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			JOptionPane.showMessageDialog(null, "Bloodthirsty monsters are invading the pristine\n"
@@ -183,7 +184,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 					+ "of the forest. To acheive this you must place\n"
 					+ "towers. Each standard tower costs 25 money and\n"
 					+ "shoots left. Magic towers cost 40 money and shoot\n"
-					+ "diagonally to the right. When you click, choose\n"
+					+ "diagonally to the left. When you click, choose\n"
 					+ "your tower. Killing an enemy gives you money and\n" + "you start with 30 money. Good luck!");
 		}
 	}
