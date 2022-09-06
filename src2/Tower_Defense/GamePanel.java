@@ -64,6 +64,17 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 				return;
 			}
 		}
+		for (Troll troll : om.trolls) {
+			if (troll.y > TowerDefense.HEIGHT) {
+				currentState = END;
+				foeSpawn.stop();
+				trollSpawn.stop();
+				om = new ObjectManager();
+				ts = false;
+				trollSpawn = new Timer(1700, om);
+				return;
+			}
+		}
 		if (om.money >= 300) {
 			currentState = MENU;
 			foeSpawn.stop();
@@ -75,8 +86,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			return;
 		}
 		om.update();
-		System.out.println(om.time);
-		if (om.time <= 1400 && ts == false) {
+		if (om.time <= 1300 && ts == false) {
 			trollSpawn.start();
 			ts = true;
 		}
@@ -175,7 +185,10 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 			}
 			if (currentState == END) {
 				foeSpawn.stop();
+				trollSpawn.stop();
 				om = new ObjectManager();
+				ts = false;
+				trollSpawn = new Timer(1700, om);
 			}
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			JOptionPane.showMessageDialog(null, "Bloodthirsty monsters are invading the pristine\n"
@@ -204,7 +217,7 @@ public class GamePanel extends JPanel implements ActionListener, KeyListener, Mo
 		// TODO Auto-generated method stub
 		if (currentState == GAME) {
 			String type = JOptionPane.showInputDialog(
-					"Do you want a archer tower (cost 25, type in 'a')\n" + "or a magic tower (cost 35, type in 'm')?");
+					"Do you want a archer tower (cost 25, type in 'a')\n" + "or a magic tower (cost 40, type in 'm')?");
 			if (type.equals("a")) {
 				om.addTurret(e.getX(), e.getY());
 			} else if (type.equals("m")) {
